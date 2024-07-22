@@ -1,8 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
-const WINDOW_API = {
-    greet: () => {ipcRenderer.send('message', "Hello Main.")},
-    test: (message:string) => {ipcRenderer.send('test', message)}
+const directoryApi = {
+    requestDirectory: () => ipcRenderer.invoke('get/Directory'),
 };
 
-contextBridge.exposeInMainWorld('api', WINDOW_API);
+contextBridge.exposeInMainWorld('directoryApi', directoryApi);

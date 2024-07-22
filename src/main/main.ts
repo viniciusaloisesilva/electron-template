@@ -1,27 +1,41 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import path from 'path';
 
 function createWindow() {
 
     let mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 600,
+        height: 700,
+        resizable: false,
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
-            preload: path.join(__dirname, '../preload/preload.js')
+            preload: path.join(__dirname, '../preload/preload.js'),
         },
     });
 
-    ipcMain.on('message', (event, arg) => {
-        console.log(arg);
-    });
-
-    ipcMain.on('test', (event, arg) => {
-        console.log(arg);
+    ipcMain.handle('get/Directory', async (event, args) => {
+        const result = await dialog.showOpenDialog(mainWindow, {
+            properties: ['openDirectory'],
+            title: 'Selecione a pasta de destino'
+        });
+        return result.filePaths
     });
 
     mainWindow.loadURL('http://localhost:5173');
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
 }
 
 app.on('ready', createWindow);
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+  
+app.on('activate', () => {
+  if (BrowserWindow === null) {
+    createWindow();
+  }
+});
