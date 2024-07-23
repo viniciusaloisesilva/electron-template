@@ -14,14 +14,6 @@ function createWindow() {
         },
     });
 
-    ipcMain.handle('get/Directory', async (event, args) => {
-        const result = await dialog.showOpenDialog(mainWindow, {
-            properties: ['openDirectory'],
-            title: 'Selecione a pasta de destino'
-        });
-        return result.filePaths
-    });
-
     mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools({ mode: 'detach' });
 }

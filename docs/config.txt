@@ -1,6 +1,0 @@
-1. Mudar o diretório do arquivo html para o Vite identificar; FEITO
-
-3. Configurar o ESLint;
-4. Comentar corretamente nos arquivos de configuração do projeto.
-
-Antes de testar o build, trocar o electron para subir o arquivo em vez da URL do vite.
